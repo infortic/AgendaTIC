@@ -2,7 +2,6 @@ package com.springlearnig.webservices;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -12,68 +11,58 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.springlearnig.entity.PessoaEntity;
-import com.springlearnig.erro.MensagemDeErro;
+import com.springlearnig.entity.ClienteEntity;
 import com.springlearnig.erro.ResourceNotFoundExeption;
-import com.springlearnig.repository.PessoaRepository;
+import com.springlearnig.repository.ClienteRepository;
 
 @RestController
-@RequestMapping("/pessoas")
-public class PessoaWS {
+@RequestMapping("/cliente")
+public class ClienteWS {
 	@Autowired
-	private PessoaRepository pessoaRepository;
-
-	@RequestMapping(method = RequestMethod.GET, path = "/todas")
+	private ClienteRepository dao;
+	@RequestMapping(method = RequestMethod.GET, path = "/tudo")
 	public ResponseEntity<?> listAll(Pageable pageable) {
-		return new ResponseEntity<>(pessoaRepository.findAll(pageable), HttpStatus.OK);
+		return new ResponseEntity<>(dao.findAll(pageable), HttpStatus.OK);
 	}
-
 	@RequestMapping(method = RequestMethod.GET, path = "/buscarPorNome/{nome}")
 	public ResponseEntity<?> buscarPorNome(@PathVariable("nome") String nome) {
-		List<PessoaEntity> pessoa = pessoaRepository.findByNomeIgnoreCaseContaining(nome);
+		List<ClienteEntity> pessoa = dao.findByNomeIgnoreCaseContaining(nome);
 		if (pessoa.isEmpty()) {
 			throw new ResourceNotFoundExeption("O Nome:**  " + nome + "  **não foi");
 		} else {
 			return new ResponseEntity<>(pessoa, HttpStatus.OK);
 		}
 	}
-
 	@RequestMapping(method = RequestMethod.GET, path = "/{id}")
 	public ResponseEntity<?> buscarPorId(@PathVariable("id") long id) {
-		Optional<PessoaEntity> pessoa = pessoaRepository.findById(id);
+		Optional<ClienteEntity> pessoa = dao.findById(id);
 		if (pessoa.isPresent()) {
 			return new ResponseEntity<>(pessoa, HttpStatus.OK);
 		} else {
 			throw new ResourceNotFoundExeption("O ID:**  " + id + "  **não foi");
 		}
 	}
-
 	@RequestMapping(method = RequestMethod.POST, path = "/salvar")
-	public ResponseEntity<?> savar(@RequestBody PessoaEntity pessoa) {
-		return new ResponseEntity<>(pessoaRepository.save(pessoa), HttpStatus.OK);
+	public ResponseEntity<?> salvar(@RequestBody ClienteEntity pessoa) {
+		return new ResponseEntity<>(dao.save(pessoa), HttpStatus.OK);
 	}
-	
 	@RequestMapping(method = RequestMethod.POST, path = "/salarTudo")
-	public ResponseEntity<?> savarTudo(@RequestBody PessoaEntity pessoa) {
-		return new ResponseEntity<>(pessoaRepository.save(pessoa), HttpStatus.OK);
+	public ResponseEntity<?> savarTudo(@RequestBody List<ClienteEntity> pessoas) {
+		return new ResponseEntity<>(dao.saveAll(pessoas), HttpStatus.OK);
 	}
-	
-
 	@RequestMapping(method = RequestMethod.PUT, path = "/atualizar")
-	public ResponseEntity<?> atualizar(@RequestBody PessoaEntity pessoa) {
-		return new ResponseEntity<>(pessoaRepository.save(pessoa), HttpStatus.OK);
+	public ResponseEntity<?> atualizar(@RequestBody ClienteEntity pessoa) {
+		return new ResponseEntity<>(dao.save(pessoa), HttpStatus.OK);
 	}
-
 	@RequestMapping(method = RequestMethod.DELETE, path = "/deletar/{id}")
 	public ResponseEntity<?> deletar(@PathVariable("id") long id) {
 		verifyId(id);
-		pessoaRepository.deleteById(id);
+		dao.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-
+	String idNull =null;
 	public void verifyId(Long id) {
-		if (pessoaRepository.findById(id) == null) {
+		if (dao.findById(id).toString()==idNull) {
 			throw new ResourceNotFoundExeption("O ID:**  " + id + "  **não foi");
 		}
 	}

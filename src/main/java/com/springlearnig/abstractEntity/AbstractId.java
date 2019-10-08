@@ -1,4 +1,4 @@
-package com.springlearnig.util;
+package com.springlearnig.abstractEntity;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class AbstractEntity implements Serializable {
+public class AbstractId implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -34,7 +34,7 @@ public class AbstractEntity implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractEntity other = (AbstractEntity) obj;
+		AbstractId other = (AbstractId) obj;
 		if (id != other.id)
 			return false;
 		return true;
