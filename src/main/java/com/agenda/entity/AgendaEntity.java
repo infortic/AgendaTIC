@@ -2,6 +2,7 @@ package com.agenda.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,17 +15,20 @@ public class AgendaEntity extends AbstractId implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String medico;
-	private LocalDateTime horario;
-	private LocalDateTime data;
+	private Date dataDoAgendamento;
+	private Date horario;
+	private Date data;
 	private String sala;
 	private String procedimento;
 	private String confirmado;
 	private String atendido;
 
-	public AgendaEntity(String medico, LocalDateTime horario, LocalDateTime data, String sala, String procedimento,
-			String confirmado, String atendido) {
+
+	public AgendaEntity(String medico, Date dataDoAgendamento, Date horario, Date data, String sala,
+			String procedimento, String confirmado, String atendido) {
 		super();
 		this.medico = medico;
+		this.dataDoAgendamento = dataDoAgendamento;
 		this.horario = horario;
 		this.data = data;
 		this.sala = sala;
@@ -33,9 +37,29 @@ public class AgendaEntity extends AbstractId implements Serializable {
 		this.atendido = atendido;
 	}
 
+
+
+
 	public AgendaEntity() {
 		super();
 	}
+
+	
+	
+	
+	public Date getDataDoAgendamento() {
+		return dataDoAgendamento;
+	}
+
+
+
+
+	public void setDataDoAgendamento(Date dataDoAgendamento) {
+		this.dataDoAgendamento = dataDoAgendamento;
+	}
+
+
+
 
 	public String getMedico() {
 		return medico;
@@ -45,19 +69,19 @@ public class AgendaEntity extends AbstractId implements Serializable {
 		this.medico = medico;
 	}
 
-	public LocalDateTime getHorario() {
+	public Date getHorario() {
 		return horario;
 	}
 
-	public void setHorario(LocalDateTime horario) {
+	public void setHorario(Date horario) {
 		this.horario = horario;
 	}
 
-	public LocalDateTime getData() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setData(LocalDateTime data) {
+	public void setData(Date data) {
 		this.data = data;
 	}
 

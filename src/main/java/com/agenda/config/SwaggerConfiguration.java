@@ -23,10 +23,7 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.agenda"))
-                .paths(regex("/cliente.*"))
-                .paths(regex("/medico.*"))
-                .paths(regex("/procedimento.*"))
-                .paths(regex("/sala.*"))
+                .paths(regex("/.*"))
                 .build()
                 .apiInfo(metaInfo());
     }
